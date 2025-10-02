@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/users",
+    "headers": {
+      "Content-Type": {
+        "equalTo": "application/json"
+      }
+    },
+    "bodyPatterns": [
+      { "matchesJsonPath": "$.name" },
+      { "matchesJsonPath": "$.email" }
+    ]
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": "{\"id\": 2, \"name\": \"Simulated New User\", \"email\": \"simulated.new.user@example.com\"}"
+  }
+}

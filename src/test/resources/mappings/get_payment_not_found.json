@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/payments/nonexistent-payment"
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": "{\"error\": \"Payment not found\"}"
+  }
+}

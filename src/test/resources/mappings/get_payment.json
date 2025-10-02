@@ -1,0 +1,69 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/v1/payments/([a-zA-Z0-9_]+)",
+    "headers": {
+      "Authorization": {
+        "matches": "Bearer .+"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-cache"
+    },
+    "jsonBody": {
+      "id": "pay_1Nz3Q82eZvKYlo2C9EbE7PKr",
+      "object": "payment",
+      "amount": 2500,
+      "currency": "usd",
+      "status": "succeeded",
+      "orderId": "order_456789",
+      "customer": {
+        "id": "cus_N4qFJ3gTQd8fR2",
+        "email": "customer@example.com",
+        "name": "John Smith"
+      },
+      "paymentMethod": {
+        "id": "pm_1Nz3Q72eZvKYlo2CvJEwRG4c",
+        "type": "card",
+        "card": {
+          "brand": "visa",
+          "last4": "4242",
+          "expiryMonth": 12,
+          "expiryYear": 2025,
+          "country": "US"
+        }
+      },
+      "billing": {
+        "address": {
+          "line1": "123 Main St",
+          "city": "San Francisco",
+          "state": "CA",
+          "postalCode": "94105",
+          "country": "US"
+        }
+      },
+      "processingFee": {
+        "amount": 73,
+        "currency": "usd"
+      },
+      "refunds": {
+        "total": 0,
+        "data": []
+      },
+      "timestamps": {
+        "createdAt": "2024-01-20T15:30:45Z",
+        "updatedAt": "2024-01-20T15:32:12Z",
+        "succeededAt": "2024-01-20T15:32:12Z"
+      },
+      "metadata": {
+        "source": "web_checkout",
+        "sessionId": "sess_1Nz3Q82eZvKYlo2C9EbE7PKr",
+        "userId": "user_12345"
+      }
+    }
+  }
+}

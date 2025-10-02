@@ -1,0 +1,75 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/orders",
+    "headers": {
+      "Content-Type": {
+        "equalTo": "application/json"
+      },
+      "Authorization": {
+        "matches": "Bearer .+"
+      }
+    },
+    "bodyPatterns": [
+      { "matchesJsonPath": "$.customerId" },
+      { "matchesJsonPath": "$.items[*].productId" },
+      { "matchesJsonPath": "$.items[*].quantity" },
+      { "matchesJsonPath": "$.shipping.address" }
+    ]
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json",
+      "Location": "/api/v1/orders/order_789012"
+    },
+    "jsonBody": {
+      "id": "order_789012",
+      "status": "pending",
+      "customer": {
+        "id": "cus_N4qFJ3gTQd8fR2",
+        "email": "customer@example.com",
+        "name": "John Smith"
+      },
+      "items": [
+        {
+          "id": "item_003",
+          "productId": "prod_laptop_stand",
+          "name": "Adjustable Laptop Stand",
+          "quantity": 1,
+          "unitPrice": 4999,
+          "totalPrice": 4999,
+          "sku": "LS-ADJ-003",
+          "category": "accessories"
+        }
+      ],
+      "totals": {
+        "subtotal": 4999,
+        "tax": 450,
+        "shipping": 0,
+        "total": 5449,
+        "currency": "usd"
+      },
+      "shipping": {
+        "address": {
+          "line1": "456 Oak Avenue", 
+          "city": "Portland",
+          "state": "OR",
+          "postalCode": "97201",
+          "country": "US"
+        },
+        "method": "standard",
+        "estimatedDelivery": "2024-01-25T00:00:00Z"
+      },
+      "timestamps": {
+        "createdAt": "2024-01-21T09:45:12Z",
+        "updatedAt": "2024-01-21T09:45:12Z"
+      },
+      "metadata": {
+        "source": "web",
+        "promoCode": "WELCOME10",
+        "discountApplied": 500
+      }
+    }
+  }
+}

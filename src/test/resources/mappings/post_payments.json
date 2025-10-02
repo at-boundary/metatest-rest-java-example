@@ -1,0 +1,61 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/payments",
+    "headers": {
+      "Content-Type": {
+        "equalTo": "application/json"
+      },
+      "Authorization": {
+        "matches": "Bearer .+"
+      }
+    },
+    "bodyPatterns": [
+      { "matchesJsonPath": "$.amount" },
+      { "matchesJsonPath": "$.currency" },
+      { "matchesJsonPath": "$.orderId" },
+      { "matchesJsonPath": "$.paymentMethod" }
+    ]
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json",
+      "Location": "/api/v1/payments/pay_1Nz3Q82eZvKYlo2C9EbE7PKr"
+    },
+    "jsonBody": {
+      "id": "pay_1Nz3Q82eZvKYlo2C9EbE7PKr",
+      "object": "payment",
+      "amount": 2500,
+      "currency": "usd",
+      "status": "pending",
+      "orderId": "order_456789",
+      "customer": {
+        "id": "cus_N4qFJ3gTQd8fR2",
+        "email": "customer@example.com"
+      },
+      "paymentMethod": {
+        "id": "pm_1Nz3Q72eZvKYlo2CvJEwRG4c",
+        "type": "card",
+        "card": {
+          "brand": "visa",
+          "last4": "4242",
+          "expiryMonth": 12,
+          "expiryYear": 2025
+        }
+      },
+      "processingFee": {
+        "amount": 73,
+        "currency": "usd"
+      },
+      "timestamps": {
+        "createdAt": "2024-01-20T15:30:45Z",
+        "updatedAt": "2024-01-20T15:30:45Z"
+      },
+      "metadata": {
+        "source": "web_checkout",
+        "sessionId": "sess_1Nz3Q82eZvKYlo2C9EbE7PKr"
+      }
+    }
+  }
+}

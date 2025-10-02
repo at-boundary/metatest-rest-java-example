@@ -1,0 +1,45 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/v1/users/([0-9]+)"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Rate-Limit-Remaining": "999"
+    },
+    "jsonBody": {
+      "id": 1001,
+      "username": "john.doe",
+      "email": "john.doe@example.com",
+      "profile": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "avatar": "https://cdn.example.com/avatars/john.jpg",
+        "bio": "Software engineer with 5 years experience"
+      },
+      "preferences": {
+        "notifications": {
+          "email": true,
+          "push": false,
+          "sms": null
+        },
+        "theme": "dark",
+        "language": "en"
+      },
+      "subscription": {
+        "plan": "premium",
+        "status": "active",
+        "expiresAt": "2024-12-31T23:59:59Z",
+        "features": ["advanced_analytics", "priority_support", "custom_integrations"]
+      },
+      "metadata": {
+        "createdAt": "2023-01-15T10:30:00Z",
+        "lastLoginAt": "2024-01-20T14:22:15Z",
+        "loginCount": 247,
+        "isVerified": true
+      }
+    }
+  }
+}

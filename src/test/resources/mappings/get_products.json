@@ -1,0 +1,101 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/v1/products/([a-zA-Z0-9_]+)"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Cache-Control": "public, max-age=3600"
+    },
+    "jsonBody": {
+      "id": "prod_wireless_headphones",
+      "name": "Premium Wireless Bluetooth Headphones",
+      "description": "High-quality wireless headphones with noise cancellation and 30-hour battery life",
+      "price": {
+        "amount": 7999,
+        "currency": "usd",
+        "formatted": "$79.99"
+      },
+      "inventory": {
+        "sku": "WH-BT-001",
+        "quantity": 150,
+        "status": "in_stock",
+        "reserved": 5,
+        "available": 145
+      },
+      "specifications": {
+        "brand": "AudioTech",
+        "model": "AT-BT-300",
+        "color": "Midnight Black",
+        "weight": "250g",
+        "dimensions": {
+          "length": "18cm",
+          "width": "15cm", 
+          "height": "8cm"
+        },
+        "features": [
+          "Active Noise Cancellation",
+          "30-hour battery life",
+          "Quick charge (5min = 2hrs)",
+          "Bluetooth 5.0",
+          "Built-in microphone"
+        ]
+      },
+      "media": {
+        "images": [
+          {
+            "url": "https://cdn.example.com/products/wh-bt-001-main.jpg",
+            "alt": "Wireless headphones main view",
+            "type": "main"
+          },
+          {
+            "url": "https://cdn.example.com/products/wh-bt-001-side.jpg", 
+            "alt": "Wireless headphones side view",
+            "type": "gallery"
+          }
+        ],
+        "videos": []
+      },
+      "category": {
+        "id": "cat_electronics_audio",
+        "name": "Audio & Electronics",
+        "path": ["Electronics", "Audio", "Headphones"]
+      },
+      "ratings": {
+        "average": 4.7,
+        "count": 1847,
+        "distribution": {
+          "5": 1234,
+          "4": 456,
+          "3": 124,
+          "2": 22,
+          "1": 11
+        }
+      },
+      "shipping": {
+        "weight": 680,
+        "dimensions": {
+          "length": 25,
+          "width": 20,
+          "height": 12,
+          "unit": "cm"
+        },
+        "freeShipping": true,
+        "expeditedAvailable": true
+      },
+      "timestamps": {
+        "createdAt": "2023-08-15T10:00:00Z",
+        "updatedAt": "2024-01-15T14:30:22Z",
+        "publishedAt": "2023-08-20T09:00:00Z"
+      },
+      "metadata": {
+        "tags": ["wireless", "bluetooth", "noise-cancelling", "premium"],
+        "seoTitle": "Premium Wireless Bluetooth Headphones - AudioTech",
+        "isActive": true,
+        "isFeatured": true
+      }
+    }
+  }
+}

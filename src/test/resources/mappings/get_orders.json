@@ -1,0 +1,84 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/api/v1/orders.*",
+    "headers": {
+      "Authorization": {
+        "matches": "Bearer .+"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Total-Count": "1247"
+    },
+    "jsonBody": {
+      "data": [
+        {
+          "id": "order_456789",
+          "status": "completed",
+          "customer": {
+            "id": "cus_N4qFJ3gTQd8fR2",
+            "email": "customer@example.com",
+            "name": "John Smith"
+          },
+          "items": [
+            {
+              "id": "item_001",
+              "productId": "prod_wireless_headphones",
+              "name": "Wireless Bluetooth Headphones",
+              "quantity": 1,
+              "unitPrice": 7999,
+              "totalPrice": 7999,
+              "sku": "WH-BT-001",
+              "category": "electronics"
+            },
+            {
+              "id": "item_002", 
+              "productId": "prod_phone_case",
+              "name": "Phone Case - Clear",
+              "quantity": 2,
+              "unitPrice": 1499,
+              "totalPrice": 2998,
+              "sku": "PC-CLR-002",
+              "category": "accessories"
+            }
+          ],
+          "totals": {
+            "subtotal": 10997,
+            "tax": 989,
+            "shipping": 599,
+            "total": 12585,
+            "currency": "usd"
+          },
+          "shipping": {
+            "address": {
+              "line1": "123 Main St",
+              "line2": "Apt 4B",
+              "city": "San Francisco",
+              "state": "CA",
+              "postalCode": "94105",
+              "country": "US"
+            },
+            "method": "standard",
+            "trackingNumber": "1Z999AA1234567890"
+          },
+          "timestamps": {
+            "createdAt": "2024-01-18T10:15:30Z",
+            "updatedAt": "2024-01-20T14:22:45Z",
+            "shippedAt": "2024-01-19T16:30:00Z",
+            "deliveredAt": "2024-01-20T14:22:45Z"
+          }
+        }
+      ],
+      "pagination": {
+        "limit": 50,
+        "offset": 0,
+        "total": 1247,
+        "hasMore": true
+      }
+    }
+  }
+}

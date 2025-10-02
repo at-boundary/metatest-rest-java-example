@@ -1,0 +1,72 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/api/v1/users.*",
+    "headers": {
+      "Authorization": {
+        "matches": "Bearer .+"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Total-Count": "2847"
+    },
+    "jsonBody": {
+      "data": [
+        {
+          "id": 1001,
+          "username": "john.doe",
+          "email": "john.doe@example.com",
+          "role": "user",
+          "profile": {
+            "firstName": "John",
+            "lastName": "Doe",
+            "avatar": "https://cdn.example.com/avatars/john.jpg"
+          },
+          "status": "active",
+          "lastLoginAt": "2024-01-20T14:22:15Z",
+          "createdAt": "2023-01-15T10:30:00Z"
+        },
+        {
+          "id": 1002,
+          "username": "jane.smith",
+          "email": "jane.smith@example.com", 
+          "role": "admin",
+          "profile": {
+            "firstName": "Jane",
+            "lastName": "Smith",
+            "avatar": "https://cdn.example.com/avatars/jane.jpg"
+          },
+          "status": "active",
+          "lastLoginAt": "2024-01-21T08:15:30Z",
+          "createdAt": "2022-11-08T09:45:00Z"
+        },
+        {
+          "id": 1003,
+          "username": "mike.wilson",
+          "email": "mike.wilson@example.com",
+          "role": "moderator", 
+          "profile": {
+            "firstName": "Mike",
+            "lastName": "Wilson",
+            "avatar": null
+          },
+          "status": "inactive",
+          "lastLoginAt": "2024-01-10T16:30:45Z",
+          "createdAt": "2023-06-22T13:20:15Z"
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 50,
+        "total": 2847,
+        "totalPages": 57,
+        "hasNext": true,
+        "hasPrev": false
+      }
+    }
+  }
+}

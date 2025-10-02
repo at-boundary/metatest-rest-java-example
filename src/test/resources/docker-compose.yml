@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  wiremock:
+    image: wiremock/wiremock:latest
+    container_name: wiremock-mocked-rest-api
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./mappings:/home/wiremock/mappings
+      - ./logs:/home/wiremock/logs
+    command: 
+      - "--port"
+      - "8089"
+      - "--verbose"
+      - "--global-response-templating"
+      - "--local-response-templating"
+    environment:
+      - JAVA_OPTS=-Dfile.encoding=UTF-8
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8089/__admin/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

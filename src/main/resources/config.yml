@@ -1,0 +1,37 @@
+faults:
+  null_field:
+    enabled: true
+  missing_field:
+    enabled: true
+  empty_list:
+    enabled: true
+  empty_string:
+    enabled: true
+  invalid_data_type:
+    enabled: false
+  invalid_value:
+    enabled: true
+  http_method_change:
+    enabled: false
+  status_code_change:
+    enabled: false
+  delay_injection:
+    enabled: false
+    delay_ms: 500
+
+url:
+ exclude:
+  - '*/login*'
+
+endpoints:
+ exclude:
+  - '*/login*'
+
+tests:
+ exclude:
+  - '*login*'
+
+report:
+ format: html
+ output_path: "./reports/simulator-report.html"
+
