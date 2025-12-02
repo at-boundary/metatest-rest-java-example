@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("io.metatest") version "1.0.0-dev-8c0f949"
 }
 
 group = "io.example.java.rest.metatest"
@@ -23,28 +24,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("io.rest-assured:rest-assured:5.3.0")
     implementation("io.rest-assured:json-path:5.3.0")
-    implementation("io.metatest:metatest:1.0.0-dev-dac8a0f")
+    implementation("io.metatest:metatest:1.0.0-dev-8c0f949")
+    testImplementation("org.assertj:assertj-core:3.24.2")
 }
 
 tasks.test {
     useJUnitPlatform()
-    val aspectjAgent = configurations.runtimeClasspath.get().find { it.name.contains("aspectjweaver") }?.absolutePath
-    val runWithMetatest = System.getProperty("runWithMetatest") == "true"
-
-    val jvmArguments = mutableListOf(
-        "-Xmx2g",
-        "-Xms512m"
-    )
-
-    if (runWithMetatest && aspectjAgent != null) {
-        jvmArguments.add("-javaagent:${aspectjAgent}")
-        // jvmArguments.addAll(listOf(
-        //     "-Daj.weaving.verbose=true",
-        //     "-Dorg.aspectj.weaver.showWeaveInfo=true",
-        //     "-Dorg.aspectj.matcher.verbosity=5"
-        // ))
-    }
-    jvmArguments.add("-DrunWithMetatest=${System.getProperty("runWithMetatest")}")
-
-    jvmArgs = jvmArguments
 }
