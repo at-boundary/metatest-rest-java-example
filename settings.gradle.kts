@@ -5,7 +5,7 @@ pluginManagement {
         mavenCentral()
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/integral-testing/metatest-rest-java")
+            url = uri("https://maven.pkg.github.com/at-boundary/metatest-rest-java")
             credentials {
                 username = settings.providers.gradleProperty("gpr.user").orNull
                     ?: System.getenv("GPR_USER")
