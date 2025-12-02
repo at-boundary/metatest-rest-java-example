@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: read
 
     steps:
       - uses: actions/checkout@v4
@@ -34,13 +35,20 @@ jobs:
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
       - name: Build with Gradle Wrapper
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
         run: ./gradlew build -x test
+
 
   integration_tests:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: read
     steps:
       - uses: actions/checkout@v4
   
@@ -65,5 +73,9 @@ jobs:
             -v $GITHUB_WORKSPACE/lib/src/test/resources/mappings:/home/wiremock/mappings \
             wiremock/wiremock:latest --port 8089 --verbose
   
-      - name: Run Integration Tests
+      - name: Run Tests
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
         run: ./gradlew clean test --info -DrunWithMetatest=true
