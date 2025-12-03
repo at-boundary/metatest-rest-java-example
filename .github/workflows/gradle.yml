@@ -72,7 +72,7 @@ jobs:
       - name: Start a WireMock server for mocked REST api
         run: |
           docker run -d --name wiremock-mocked-rest-api -p 8089:8089 \
-            -v $GITHUB_WORKSPACE/lib/src/test/resources/mappings:/home/wiremock/mappings \
+            -v $GITHUB_WORKSPACE/src/test/resources/mappings:/home/wiremock/mappings \
             wiremock/wiremock:latest --port 8089 --verbose
   
       - name: Run Tests
