@@ -39,7 +39,7 @@ jobs:
       - name: Build with Gradle Wrapper
         env:
           GPR_USER: ${{ github.actor }}
-          GPR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GPR_TOKEN: ${{ secrets.GH_PACKAGES_READ_TOKEN }}
 
 
         run: ./gradlew build -x test
@@ -77,6 +77,6 @@ jobs:
       - name: Run Tests
         env:
           GPR_USER: ${{ github.actor }}
-          GPR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GPR_TOKEN: ${{ secrets.GH_PACKAGES_READ_TOKEN }}
 
         run: ./gradlew clean test --info -DrunWithMetatest=true
