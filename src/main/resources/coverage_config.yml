@@ -2,7 +2,7 @@
 
 coverage:
   # Enable coverage tracking
-  enabled: false
+  enabled: true
 
   # Output file path
   output_file: "schema_coverage.json"

@@ -2,6 +2,10 @@
 
 This is a sample project demonstrating how to use **Metatest** - a REST API mutation testing framework that validates test reliability through fault injection.
 
+> **⚠️ Experimental Project**
+>
+> This example uses the experimental Metatest library. The project is currently in development phase and dependencies are hosted on GitHub Packages temporarily.
+
 ## What is Metatest?
 
 Metatest uses AspectJ bytecode weaving to inject faults into HTTP responses and verify if your tests catch them. It helps ensure your tests are robust and would catch real-world API contract violations.
@@ -127,6 +131,22 @@ export GPR_TOKEN=your-github-personal-access-token
 ```
 
 ### View the Report:
+
+**HTML Report (Recommended):**
+```bash
+# Open in your default browser
+start metatest_report.html   # Windows
+open metatest_report.html    # macOS
+xdg-open metatest_report.html # Linux
+```
+
+The HTML report provides an interactive, visual dashboard with:
+- Summary metrics (fault detection rate, endpoint coverage)
+- Expandable fault details with test results
+- Gap analysis showing untested endpoints
+- Detailed HTTP call logs
+
+**JSON Report (for programmatic access):**
 ```bash
 cat fault_simulation_report.json
 ```

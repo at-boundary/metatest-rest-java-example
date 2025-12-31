@@ -4,13 +4,13 @@ faults:
   missing_field:
     enabled: true
   empty_list:
-    enabled: false
+    enabled: true
   empty_string:
-    enabled: false
+    enabled: true
   invalid_data_type:
     enabled: false
   invalid_value:
-    enabled: false
+    enabled: true
   http_method_change:
     enabled: false
   status_code_change:
@@ -21,15 +21,56 @@ faults:
 
 url:
  exclude:
-  - '*/login*'
+  - '*/demo*'
 
 endpoints:
  exclude:
-  - '*/login*'
+  - '*/demo*'
 
 tests:
  exclude:
-  - '*login*'
+  - '*demo*'
+
+# Simulation settings
+simulation:
+  # Only simulate faults on responses with these status codes (default: successful responses only)
+  # Examples: [200, 201, 204] or [200-299] for all 2xx codes
+  allowed_status_codes:
+    - 200
+    - 201
+    - 202
+    - 204
+  # If true, only simulate on 2xx success responses (overrides allowed_status_codes)
+  only_success_responses: true
+
+  # Skip simulation on collection responses (arrays like [{...}, {...}])
+  # Collection responses have different structure and require different fault strategies
+  skip_collections_response: true
+
+  # Minimum number of fields required in response to run simulation
+  # Set to 0 to simulate on all responses, even empty ones
+  min_response_fields: 1
+
+  # Skip simulation if response contains these fields (typically error indicators)
+  skip_if_contains_fields:
+    - error
+    - detail
+    - message
+    - errorMessage
+
+  # Strategy for tests that make multiple HTTP requests
+  multiple_endpoints_strategy:
+    # Only simulate the last endpoint (typically what's being asserted)
+    # Set to false to simulate ALL captured endpoints in the test
+    test_only_last_endpoint: true
+
+    # Exclude specific endpoints from simulation (regex patterns applied to normalized paths)
+    # Useful for skipping setup/auth requests
+    exclude_endpoints:
+      # - ".*\\/auth\\/.*"           # Skip all authentication endpoints
+      # - ".*\\/stocks.*"            # Skip all stock-related endpoints
+      # To simulate ONLY certain endpoints, exclude everything else with negative lookahead:
+      # - "^(?!.*\\/orders).*$"     # Only simulate /orders endpoints (exclude everything else)
 
 report:
  format: html
