@@ -1,10 +1,10 @@
 # Metatest REST API Example Project
 
-This is a sample project demonstrating how to use **Metatest** - a REST API mutation testing framework that validates test reliability through fault injection.
+This is a sample project demonstrating how to use **Metatest** - a library that validates API tests reliability through fault simulation.
 
-> **⚠️ Experimental Project**
+> **⚠️ Experimental Project (v0.1.0)**
 >
-> This example uses the experimental Metatest library. The project is currently in development phase and dependencies are hosted on GitHub Packages temporarily.
+> This example uses the experimental Metatest library. Features and APIs may change between versions.
 
 ## What is Metatest?
 
@@ -12,63 +12,58 @@ Metatest uses AspectJ bytecode weaving to inject faults into HTTP responses and 
 
 ## Quick Setup
 
-### 1. Add Metatest Plugin and Dependency
+### 1. Add JitPack Repository
 
 **settings.gradle.kts:**
 ```kotlin
-pluginManagement {
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        mavenLocal()  // For local testing
-        gradlePluginPortal()
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/at-boundary/metatest-rest-java")
-            credentials {
-                username = settings.providers.gradleProperty("gpr.user").orNull
-                    ?: System.getenv("GPR_USER")
-                password = settings.providers.gradleProperty("gpr.token").orNull
-                    ?: System.getenv("GPR_TOKEN")
-            }
-        }
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
 rootProject.name = "your-project-name"
 ```
 
+### 2. Add Dependency and Configure AspectJ
+
 **build.gradle.kts:**
 ```kotlin
 plugins {
     java
-    id("io.metatest") version "1.0.0-dev-0e938b3"  // Add Metatest plugin
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/at-boundary/metatest-rest-java")
-        credentials {
-            username = project.findProperty("gpr.user") as String? ?: System.getenv("GPR_USER")
-            password = project.findProperty("gpr.token") as String? ?: System.getenv("GPR_TOKEN")
-        }
-    }
 }
 
 dependencies {
-    testImplementation("io.metatest:metatest:1.0.0-dev-0e938b3")  // Add Metatest library
+    // Metatest
+    testImplementation("com.github.at-boundary:metatest-rest-java:v0.1.0")
 
     // Your other dependencies
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
     testImplementation("io.rest-assured:rest-assured:5.3.0")
 }
+
+tasks.test {
+    useJUnitPlatform()
+
+    val aspectjAgent = configurations.testRuntimeClasspath.get()
+        .files.find { it.name.contains("aspectjweaver") }
+
+    if (aspectjAgent != null) {
+        jvmArgs(
+            "-javaagent:$aspectjAgent",
+            "-DrunWithMetatest=${System.getProperty("runWithMetatest") ?: "false"}"
+        )
+    }
+}
 ```
 
-### 2. Add Configuration Files to src/main/resources/
+### 3. Add Configuration File (Optional)
 
-Metatest requires configuration files in src/main/resources/:
+Create `src/main/resources/config.yml` to customize fault injection:
 
-**config.yml** (Required for local mode):
+**config.yml:**
 ```yaml
 faults:
   null_field:
@@ -103,21 +98,6 @@ report:
 
 
 
-### 3. Set Up Credentials
-
-Create gradle.properties in project root or ~/.gradle/gradle.properties:
-
-```properties
-gpr.user=your-github-username
-gpr.token=your-github-personal-access-token
-```
-
-Or set environment variables:
-```bash
-export GPR_USER=your-github-username
-export GPR_TOKEN=your-github-personal-access-token
-```
-
 ## Running Tests
 
 ### Run tests WITHOUT Metatest (normal tests):
@@ -125,7 +105,7 @@ export GPR_TOKEN=your-github-personal-access-token
 ./gradlew test
 ```
 
-### Run tests WITH Metatest (mutation testing):
+### Run tests WITH Metatest (with fault simulation):
 ```bash
 ./gradlew test -DrunWithMetatest=true
 ```
@@ -153,7 +133,7 @@ cat fault_simulation_report.json
 
 ## How It Works
 
-1. Plugin automatically configures AspectJ weaving - no manual JVM args needed!
+1. AspectJ weaving intercepts HTTP calls during test execution
 2. Tests run normally first - baseline execution captures HTTP requests/responses
 3. Metatest simulates faults - null fields, missing fields, empty collections, etc.
 4. Tests are re-executed - with each fault injected
@@ -199,9 +179,6 @@ The mappings/ folder contains mock API resources loaded by WireMock.
 jobs:
   test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
 
     steps:
       - uses: actions/checkout@v4
@@ -213,34 +190,30 @@ jobs:
           distribution: 'temurin'
 
       - name: Run tests with Metatest
-        env:
-          GPR_USER: ${{ github.actor }}
-          GPR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew test -DrunWithMetatest=true
 ```
 
 ## Key Features
 
-- Zero code changes - Just add plugin and config files
-- Automatic AspectJ setup - Plugin handles all JVM configuration
+- Zero code changes - Just add dependency and config
 - Plug-and-play - Works with existing JUnit + RestAssured tests
 - Multiple fault types - Null, missing, empty, invalid values
 - Configurable - Exclude endpoints, tests, or fault types
-- Detailed reports - JSON output with fault coverage metrics
+- Detailed reports - JSON and HTML output with fault coverage metrics
 
 ## Troubleshooting
 
-### Plugin not found
-- Ensure credentials are set (GPR_USER and GPR_TOKEN)
-- Check settings.gradle.kts has GitHub Packages repository in pluginManagement
+### Dependency not found
+- Ensure JitPack repository is added to settings.gradle.kts
+- Check the version tag exists: https://jitpack.io/#at-boundary/metatest-rest-java
 
 ### AspectJ weaver not found
-- Ensure io.metatest:metatest is in testImplementation dependencies
-- The plugin requires the library to be on the classpath
+- Ensure the metatest dependency is in testImplementation
+- The library includes aspectjweaver as a transitive dependency
 
 ### Tests not running with Metatest
 - Verify -DrunWithMetatest=true is set
-- Check logs for [Metatest] Configuring test task...
+- Check that aspectjAgent is found in the test task configuration
 - Run with --info for detailed output
 
 ## Documentation

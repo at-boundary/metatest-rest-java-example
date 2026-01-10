@@ -10,8 +10,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("io.rest-assured:rest-assured:5.3.0")
     testImplementation("io.rest-assured:json-path:5.3.0")
-    implementation("com.github.at-boundary:metatest-rest-java:v0.1.0")
     testImplementation("org.assertj:assertj-core:3.24.2")
+    testImplementation("com.github.at-boundary:metatest-rest-java:v0.1.0")
 }
 
 tasks.test {
