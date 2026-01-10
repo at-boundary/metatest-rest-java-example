@@ -1,19 +1,8 @@
-pluginManagement {
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        mavenLocal()
-        gradlePluginPortal()
         mavenCentral()
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/at-boundary/metatest-rest-java")
-            credentials {
-                username = settings.providers.gradleProperty("gpr.user").orNull
-                    ?: System.getenv("GPR_USER")
-                password = settings.providers.gradleProperty("gpr.token").orNull
-                    ?: System.getenv("GPR_TOKEN")
-
-            }
-        }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
