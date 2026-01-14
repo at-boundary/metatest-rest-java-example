@@ -21,7 +21,6 @@ This is a sample project demonstrating how to use **Metatest** - a library that 
   - [Array Field Validation](#array-field-validation)
 - [Complete Example: Trading API](#complete-example-trading-api)
 - [Running Tests](#running-tests)
-- [How It Works](#how-it-works)
 - [Example Test](#example-test)
 - [GitHub Actions CI/CD](#github-actions-cicd)
 - [Troubleshooting](#troubleshooting)
@@ -98,6 +97,8 @@ version: "1.0"
 
 settings:
   default_quantifier: all
+  # Skip simulation once any test catches a fault (faster runs, less detail)
+  stop_on_first_catch: false
 
 # Define your API endpoints and invariants
 endpoints:
@@ -281,6 +282,8 @@ version: "1.0"
 
 settings:
   default_quantifier: all
+  # Set to true for quick smoke runs
+  stop_on_first_catch: false
 
 endpoints:
   # ============================================
@@ -428,6 +431,22 @@ faults:
 ./gradlew test -DrunWithMetatest=true
 ```
 
+### Quick Smoke Runs
+
+For faster feedback during development, enable `stop_on_first_catch` in your config:
+
+```yaml
+settings:
+  stop_on_first_catch: true
+```
+
+When enabled, Metatest skips simulating a fault once any test has already caught it. This is useful for:
+- Quick verification that your tests catch each fault type
+- Faster CI feedback loops
+- Development iterations
+
+**Trade-off:** You lose information about which specific tests catch each fault. Set to `false` (default) for complete coverage reports.
+
 ### View the Reports
 
 **HTML Report (Recommended):**
@@ -447,53 +466,6 @@ The HTML report shows:
 **JSON Report (for CI/CD):**
 ```bash
 cat fault_simulation_report.json
-```
-
----
-
-## How It Works
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  1. Your test runs normally (baseline)                      │
-└─────────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────────┐
-│  2. Metatest captures HTTP response                         │
-└─────────────────────────────────────────────────────────────┘
-                          │
-              ┌───────────┴───────────┐
-              ▼                       ▼
-┌──────────────────────┐  ┌──────────────────────┐
-│  Contract Faults     │  │  Invariant Faults    │
-│  - null_field        │  │  - Violate business  │
-│  - missing_field     │  │    rules you defined │
-│  - empty_string      │  │  - e.g., set price   │
-│  - empty_list        │  │    to -1 when rule   │
-│                      │  │    says price > 0    │
-└──────────────────────┘  └──────────────────────┘
-              │                       │
-              └───────────┬───────────┘
-                          ▼
-┌─────────────────────────────────────────────────────────────┐
-│  3. Re-run test with mutated response                       │
-└─────────────────────────────────────────────────────────────┘
-                          │
-                    ┌─────┴─────┐
-                    ▼           ▼
-              Test Passes   Test Fails
-                    │           │
-                    ▼           ▼
-              ┌─────────┐ ┌─────────┐
-              │ ESCAPED │ │DETECTED │
-              │  (BAD)  │ │ (GOOD)  │
-              └─────────┘ └─────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────────┐
-│  4. Generate report showing fault detection coverage        │
-└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -563,7 +535,6 @@ jobs:
 - Check the version tag exists: https://jitpack.io/#at-boundary/metatest-rest-java
 
 ### Config parsing error
-- Ensure `config.yml` uses `invariants:` (not `relations:`)
 - Check YAML syntax is valid
 
 ### Tests not running with Metatest

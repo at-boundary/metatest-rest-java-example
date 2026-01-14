@@ -3,6 +3,9 @@ version: "1.0"
 # Global settings
 settings:
   default_quantifier: all
+  # Skip fault simulation once any test catches it (useful for quick/smoke runs)
+  # Set to true for faster runs, false for complete coverage information
+  stop_on_first_catch: false
 
   # Endpoint-specific relation rules
 endpoints:
